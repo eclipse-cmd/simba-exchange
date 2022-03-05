@@ -1,0 +1,28 @@
+{
+  "sortedMiddleware": [
+    "/api/v1/user"
+  ],
+  "clientInfo": [
+    [
+      "/api/v1/user",
+      false
+    ]
+  ],
+  "middleware": {
+    "/api/v1/user": {
+      "env": [
+        "JWT_SECRET",
+        "NODE_DEBUG",
+        "READABLE_STREAM"
+      ],
+      "files": [
+        "server/middleware-runtime.js",
+        "server/pages/api/v1/user/_middleware.js"
+      ],
+      "name": "pages/api/v1/user/_middleware",
+      "page": "/api/v1/user",
+      "regexp": "^/api/v1/user(?:(/.*)?)$"
+    }
+  },
+  "version": 1
+}
