@@ -80,7 +80,6 @@ const DashboardLayout: React.FC<LayoutProps> = ({ head, children }) => {
             </div>
             <script src="/assets/js/bundle.js?ver=2.9.1"></script>
             <script src="/assets/js/scripts.js?ver=2.9.1"></script>
-            <script src="/assets/js/libs/datatable-btns.js?ver=2.9.1"></script>
         </>
     );
 };
