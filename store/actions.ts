@@ -20,10 +20,9 @@ export const
                 }
             });
             const result = await response.data as APIResponse;
-            console.log("API RESULT", result);
             if (!result.status) {
                 errorToast(result.message);
-                // redirectHome();
+                redirectHome();
             }
             return result;
         } catch (error: any) {
@@ -32,7 +31,7 @@ export const
             } else {
                 errorToast(error.message);
             }
-            // redirectHome();
+            redirectHome();
         }
     },
     get = async (endpoint: string) => {
@@ -48,8 +47,8 @@ export const
             }
             return result;
         } catch (error: any) {
-            errorToast(error.message);
-            // redirectHome();
+            const message = error.response.data.message ?? error.message;
+            errorToast(message);
         }
     },
     post = async (endpoint: string, data: any) => {
@@ -62,9 +61,11 @@ export const
             const result = response.data as APIResponse;
             if (!result.status) {
                 errorToast(result.message);
+                return;
             }
             return result;
         } catch (error: any) {
-            errorToast(error.message);
+            const message = error.response.data.message ?? error.message;
+            errorToast(message);
         }
     };

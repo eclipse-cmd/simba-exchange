@@ -13,7 +13,8 @@ import { InitialState, User } from "types";
 
 //initial store state
 const initialState = {
-  user: null,
+  users: null,
+  auth: null,
   token: null,
   wallet: null
 };

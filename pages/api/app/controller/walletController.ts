@@ -21,6 +21,13 @@ export const
             };
         }
 
+        if (data.source_wallet == data.target_wallet) {
+            return {
+                status: false,
+                message: "cannot transfer from same wallet"
+            };
+        }
+
         const wallet = await Wallet.findOne({
             owner_id: data.user._id,
             type: data.source_wallet
@@ -80,11 +87,14 @@ export const
                             try {
                                 const new_transaction = await Transaction.create({
                                     receiver_id: data.user._id,
+                                    sender_id: data.user._id,
                                     amount: amount.toString(),
                                     type: -1,
                                     source_currency: data.source_wallet,
                                     target_currency: data.target_wallet,
                                     refrence: randomString(),
+                                    created_at: new Date(),
+                                    updated_at: new Date()
                                 });
                                 if (new_transaction) {
                                     return {
@@ -150,11 +160,14 @@ export const
                         try {
                             const new_transaction = await Transaction.create({
                                 receiver_id: data.user._id,
+                                sender_id: data.user._id,
                                 amount: amount.toString(),
                                 type: -1,
                                 source_currency: data.source_wallet,
                                 target_currency: data.target_wallet,
                                 refrence: randomString(),
+                                created_at: new Date(),
+                                updated_at: new Date()
                             });
                             if (new_transaction) {
                                 return {
@@ -220,11 +233,14 @@ export const
                         try {
                             const new_transaction = await Transaction.create({
                                 receiver_id: data.user._id,
+                                sender_id: data.user._id,
                                 amount: amount.toString(),
                                 type: -1,
                                 source_currency: data.source_wallet,
                                 target_currency: data.target_wallet,
                                 refrence: randomString(),
+                                created_at: new Date(),
+                                updated_at: new Date()
                             });
                             if (new_transaction) {
                                 return {

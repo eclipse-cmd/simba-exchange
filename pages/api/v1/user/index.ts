@@ -6,7 +6,9 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const response = await getUser();
+    const token = req.headers.token as string;
+    const user = await getAuth(token);
+    const response = await getUser(user);
     if (response) {
         return res.status(200).json(apiResponse(true, '', response));
     }

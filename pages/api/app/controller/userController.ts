@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { User as UserType } from "types";
 import dbConnect from "../../config/database";
 import { User } from "../model";
 
@@ -23,9 +24,9 @@ export const
     },
 
     //get all user
-    getUser = async () => {
+    getUser = async (user:UserType) => {
         try {
-            const  users = await User.find({});
+            const  users = await User.find({_id: {$ne: user._id}});
             return users
         } catch (error: any) {
             return error;

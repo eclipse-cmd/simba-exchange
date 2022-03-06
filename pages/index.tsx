@@ -25,16 +25,16 @@ const Home: NextPage = () => {
         const response = await axios.post(`/api/v1/login`, data);
         const result = await response.data;
         if (!result.status) {
-          setLoading(false);
           errorToast(result.message);
+          setLoading(false);
           return;
         }
         const res = response.data.data as unknown as { token: string, user: User; };
-        console.log(res);
         saveLocalstorage(res.token, res.user);
         setLoading(false);
         window.location.href = "/dashboard";
       } catch (error: any) {
+        setLoading(false);
         errorToast("an error occured, please try again later");
       }
     };
@@ -72,10 +72,6 @@ const Home: NextPage = () => {
                         <label className="form-label" htmlFor="password">Password</label>
                       </div>
                       <div className="form-control-wrap">
-                        <a href="#" className="form-icon form-icon-right passcode-switch lg" data-target="password">
-                          <em className="passcode-icon icon-show icon ni ni-eye"></em>
-                          <em className="passcode-icon icon-hide icon ni ni-eye-off"></em>
-                        </a>
                         <input type="password" name="password" onChange={inputsHandler} required className="form-control form-control-lg" placeholder="Enter your password" />
                       </div>
                     </div>
