@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import dbConnect from "../../config/database";
 import { User } from "../model";
-import express from "express"
 
 dbConnect();
 const JWT_SECRET = process.env.JWT_SECRET as string;

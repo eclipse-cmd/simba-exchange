@@ -1,11 +1,28 @@
-import { TransactionInput } from "types";
+import { TransactionInput, User } from "types";
 import { Transaction, Wallet } from "../model";
 import { exchange_currency, exchange_rate, randomString } from "../_util";
 
 export const
-    getTransaction = async () => {
-        const transactions = await Transaction.find({});
-        return transactions;
+    getTransaction = async (perPage: any, page: any, user: User) => {
+
+        const transaction = await Transaction
+            .find({ $or: [{ sender_id: user._id }, { receiver_id: user._id }] })
+            .select([])
+            .limit(perPage)
+            .skip(perPage * page)
+            .sort({ created_at: 'desc' })
+            .exec();
+
+        let count = await Transaction.find({ $or: [{ sender_id: user._id }, { receiver_id: user._id }] }).count().exec();
+        if (count != 0) {
+            count = count > perPage ? Math.ceil(count / perPage) : 1;
+        }
+
+        return {
+            transaction,
+            page,
+            pages: count
+        };
     },
 
     addTransaction = async (data: TransactionInput) => {
@@ -40,8 +57,6 @@ export const
         //check wallet balance
         const balance = parseFloat(wallet.amount);
         const amount = parseFloat(data.amount);
-        console.log("Wallet: ", wallet);
-        console.log("Amount: ", amount);
         if (balance < amount) {
             return {
                 status: false,

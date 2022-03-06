@@ -30,6 +30,11 @@
       "static/chunks/main.js",
       "server/middleware-runtime.js",
       "server/pages/api/v1/user/_middleware.js"
+    ],
+    "/dashboard": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/dashboard.js"
     ]
   },
   "ampFirstPages": []

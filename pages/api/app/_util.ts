@@ -1,4 +1,4 @@
-export const apiResponse = (status: boolean, message: string, data: any) => {
+export const apiResponse = (status: boolean | undefined, message: string, data: any) => {
   return {
     status,
     message,

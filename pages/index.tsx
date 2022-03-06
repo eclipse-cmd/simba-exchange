@@ -1,46 +1,99 @@
-import Layout from '@components/Layout'
-import type { NextPage } from 'next'
-import NextLink from "next/link"
+import Button from "@components/Button";
+import Footer from "@components/HomeFooter";
+import Layout from '@components/Layout';
+import { errorToast, saveLocalstorage } from "@store/helper";
+import axios from "axios";
+import { NextPage } from 'next';
+import NextLink from "next/link";
+import { useState } from "react";
+import { User } from "types";
 
 
 const Home: NextPage = () => {
+  const
+    [data, setData] = useState({ email: "", password: "", }),
+    [loading, setLoading] = useState<boolean>(false),
+
+    //Functions
+    inputsHandler = (e: React.ChangeEvent<HTMLInputElement>): Promise<any> | void => {
+      setData({ ...data, [e.target.name]: e.target.value });
+    },
+    handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+      e.preventDefault();
+      setLoading(true);
+      try {
+        const response = await axios.post(`/api/v1/login`, data);
+        const result = await response.data;
+        if (!result.status) {
+          setLoading(false);
+          errorToast(result.message);
+          return;
+        }
+        const res = response.data.data as unknown as { token: string, user: User; };
+        console.log(res);
+        saveLocalstorage(res.token, res.user);
+        setLoading(false);
+        window.location.href = "/dashboard";
+      } catch (error: any) {
+        errorToast("an error occured, please try again later");
+      }
+    };
+
   return (
     <Layout head='Login'>
-      <div className="uk-section uk-padding-remove-vertical">
-        <div className="uk-container uk-container-expand">
-          <div className="uk-grid h-min-vh">
-            <div className="uk-width-3-5@m uk-background-cover uk-background-center-right uk-visible@m uk-box-shadow-xlarge" style={{ backgroundImage: "url(/assets/img/in-signin-image.jpg)" }}>
-            </div>
-            <div className="uk-width-expand@m uk-flex uk-flex-middle">
-              <div className="uk-grid uk-flex-center">
-                <div className="uk-width-3-5@m">
-                  <div className="uk-text-center in-padding-horizontal@s">
-                    <h2>Simba-Exchange</h2>
-                    <p className="uk-text-lead uk-margin-small-top uk-margin-medium-bottom">Log into your account</p>
-                    <form className="uk-grid uk-form">
-                      <div className="uk-margin-small uk-width-1-1 uk-inline">
-                        <span className="uk-form-icon uk-form-icon-flip fas fa-user fa-sm"></span>
-                        <input className="uk-input uk-border-rounded" value="" name="email" type="email" placeholder="Email address" />
+      <div className="nk-main">
+        <div className="nk-wrap nk-wrap-nosidebar">
+          <div className="nk-content ">
+            <div className="nk-block nk-block-middle nk-auth-body  wide-xs">
+              <div className="brand-logo pb-4 text-center">
+                <h3>Simba Exchange</h3>
+              </div>
+              <div className="card card-bordered">
+                <div className="card-inner card-inner-lg">
+                  <div className="nk-block-head">
+                    <div className="nk-block-head-content">
+                      <h4 className="nk-block-title">Sign-In</h4>
+                      <div className="nk-block-des">
+                        <p>Access the Simba Exchange account using your email and password.</p>
                       </div>
-                      <div className="uk-margin-small uk-width-1-1 uk-inline">
-                        <span className="uk-form-icon uk-form-icon-flip fas fa-lock fa-sm"></span>
-                        <input className="uk-input uk-border-rounded" value="" type="password" placeholder="Password" />
+                    </div>
+                  </div>
+                  <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                      <div className="form-label-group">
+                        <label className="form-label" htmlFor="default-01">Email address</label>
                       </div>
-                      <div className="uk-margin-small uk-width-1-1">
-                        <button className="uk-button uk-width-1-1 uk-button-primary uk-border-rounded uk-float-left" type="submit">Sign in</button>
+                      <div className="form-control-wrap">
+                        <input type="email" className="form-control form-control-lg" name="email" required onChange={inputsHandler} placeholder="Enter your email address" />
                       </div>
-                    </form>
-
-                    <span className="uk-text-small">Don't have an account? <NextLink href="/register"><a className="uk-button uk-button-text">Register here</a></NextLink> </span>
+                    </div>
+                    <div className="form-group">
+                      <div className="form-label-group">
+                        <label className="form-label" htmlFor="password">Password</label>
+                      </div>
+                      <div className="form-control-wrap">
+                        <a href="#" className="form-icon form-icon-right passcode-switch lg" data-target="password">
+                          <em className="passcode-icon icon-show icon ni ni-eye"></em>
+                          <em className="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                        </a>
+                        <input type="password" name="password" onChange={inputsHandler} required className="form-control form-control-lg" placeholder="Enter your password" />
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <Button isLoading={loading} btn_text="Sign in" />
+                    </div>
+                  </form>
+                  <div className="form-note-s2 text-center pt-4"> New on our platform? <NextLink href="/register"><a>Create an account</a></NextLink>
                   </div>
                 </div>
               </div>
             </div>
+            <Footer />
           </div>
         </div>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
