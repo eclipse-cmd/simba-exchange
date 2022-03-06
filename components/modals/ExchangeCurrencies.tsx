@@ -57,7 +57,7 @@ const Exchange: React.FC<TransactionProps> = ({ wallets, users, rate }) => {
                             <div className='form-group'>
                                 <label className='form-label'>Select source wallet</label>
                                 <div className='form-control-wrap wrap-select'>
-                                    <select className='data-select wrap-select custom-select' onChange={handleSelect} name='source_wallet'>
+                                    <select className='data-select wrap-select custom-select' required onChange={handleSelect} name='source_wallet'>
                                         <option>Select an option</option>
                                         {wallets?.map((wallet: Wallet) => (
                                             <option key={wallet._id} value={wallet.type}>
@@ -70,7 +70,7 @@ const Exchange: React.FC<TransactionProps> = ({ wallets, users, rate }) => {
                             <div className='form-group'>
                                 <label className='form-label'>Select target wallet</label>
                                 <div className='form-control-wrap wrap-select'>
-                                    <select className='data-select wrap-select custom-select' onChange={handleSelect} name='target_wallet'>
+                                    <select className='data-select wrap-select custom-select' required onChange={handleSelect} name='target_wallet'>
                                         <option>Select an option</option>
                                         {
                                             currencies.map((c, index) => (
@@ -86,7 +86,7 @@ const Exchange: React.FC<TransactionProps> = ({ wallets, users, rate }) => {
                             <div className="form-group">
                                 <label className="form-label" htmlFor="pay-amount">Amount</label>
                                 <div className="form-control-wrap">
-                                    <input type="text" className="form-control" onChange={handleChange} name="amount" />
+                                    <input type="text" className="form-control" required onChange={handleChange} name="amount" />
                                 </div>
                             </div>
                             <div className="form-group">

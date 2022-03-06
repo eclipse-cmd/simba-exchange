@@ -12,7 +12,7 @@ import { TransactionResponse, Wallet } from "types";
 
 interface DashboardProps { }
 
-const Dashboard: React.FC<DashboardProps> = ({ }) => {
+const Dashboard: React.FC<DashboardProps> = () => {
     const store = useContext(AppContext);
     const token = useMemo(() => store.state.token, [store]);
     const auth = useMemo(() => store.state.auth, [store]);
@@ -39,6 +39,7 @@ const Dashboard: React.FC<DashboardProps> = ({ }) => {
                 });
             }
         },
+        //getwallet
         getWallet = async () => {
             const response = await get('user/wallet');
             if (response?.status) {
@@ -83,7 +84,6 @@ const Dashboard: React.FC<DashboardProps> = ({ }) => {
             getUsers();
         }
     }, [token]);
-
 
     return (
         <DashboardLayout>
@@ -358,7 +358,6 @@ const Dashboard: React.FC<DashboardProps> = ({ }) => {
                     </div>
                 </div>
             </div>
-            {/*Modal Form */}
             <Transaction users={users} wallets={wallets} rate={rate} />
             <Exchange users={users} wallets={wallets} rate={rate} />
         </DashboardLayout>

@@ -1,7 +1,4 @@
 import "@assets/app.scss";
-// import "@assets/js/bundle.js";
-// import "@assets/js/scripts.js";
-// import "@assets/js/libs/datatable-btns.js";
 import Progress from "@components/Progress/Index";
 import reducer from "@store/reducer";
 import type { AppProps } from "next/app";
@@ -9,7 +6,7 @@ import { useRouter } from "next/router";
 import { createContext, useEffect, useReducer, useState } from "react";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { InitialState, User } from "types";
+import { InitialState } from "types";
 
 //initial store state
 const initialState = {

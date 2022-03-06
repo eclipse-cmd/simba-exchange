@@ -54,7 +54,7 @@ const Transaction: React.FC<TransactionProps> = ({ wallets, users, rate }) => {
                             <div className='form-group'>
                                 <label className='form-label'>Select source wallet</label>
                                 <div className='form-control-wrap wrap-select'>
-                                    <select className='data-select wrap-select custom-select' onChange={handleSelect} name='source_currency'>
+                                    <select className='data-select wrap-select custom-select' required onChange={handleSelect} name='source_currency'>
                                         <option>Select an option</option>
                                         {wallets?.map((wallet: Wallet) => (
                                             <option key={wallet._id} value={wallet.type}>
@@ -67,7 +67,7 @@ const Transaction: React.FC<TransactionProps> = ({ wallets, users, rate }) => {
                             <div className='form-group'>
                                 <label className='form-label'>Select target wallet</label>
                                 <div className='form-control-wrap wrap-select'>
-                                    <select className='data-select wrap-select custom-select' onChange={handleSelect} name='target_currency'>
+                                    <select className='data-select wrap-select custom-select' required onChange={handleSelect} name='target_currency'>
                                         <option>Select an option</option>
                                         <option value="USD">USD</option>
                                         <option value="EURO">EURO</option>
@@ -78,13 +78,13 @@ const Transaction: React.FC<TransactionProps> = ({ wallets, users, rate }) => {
                             <div className="form-group">
                                 <label className="form-label" htmlFor="pay-amount">Amount</label>
                                 <div className="form-control-wrap">
-                                    <input type="text" className="form-control" onChange={handleChange} name="amount" />
+                                    <input type="text" className="form-control" required onChange={handleChange} name="amount" />
                                 </div>
                             </div>
                             <div className='form-group'>
                                 <label className='form-label'>Select user</label>
                                 <div className='form-control-wrap wrap-select'>
-                                    <select className='data-select wrap-select custom-select text-capitalize' onChange={handleSelect} name='receiver_id'>
+                                    <select className='data-select wrap-select custom-select text-capitalize' required onChange={handleSelect} name='receiver_id'>
                                         <option>Select an option</option>
                                         {users?.map((user: User) => (
                                             <option key={user._id} className="text-capitalize" value={user._id}>
