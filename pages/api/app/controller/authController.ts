@@ -36,20 +36,20 @@ export const
                 return apiResponse(false, "incorrect password", []);
             }
         } catch (error) {
-            console.log(error);
-            return apiResponse(false, "an error occured", []);
+            return apiResponse(undefined, "an error occured, please try again later", [error]);
         }
     },
 
     //register method
     register = async (data: UserInput) => {
         const { name, email, password, password_confirmation } = data;
-        if (!name || !email || !password) {
+        if (!name || !email || !password || !password_confirmation) {
             return apiResponse(false, "validation failed", {
                 error: "all inputs field are required"
             });
         }
-        if (password !== password_confirmation) {
+        
+        if (password != password_confirmation) {
             return apiResponse(false, "password do not match", []);
         }
 

@@ -8,6 +8,7 @@
       "@components/*": ["./components/*"],
       "@assets/*": ["./assets/*"],
       "@styles/*": ["./styles/*"],
+      "@store/*": ["./store/*"],
       "@hooks/*": ["./hooks/*"]
     },
     "skipLibCheck": true,

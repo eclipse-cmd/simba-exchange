@@ -12,7 +12,10 @@ export default async function handler(
     const method = req.method;
     switch (method) {
         case 'GET':
-            let transactions = await getTransaction();
+            const perPage = 10;
+            const page = req.query.page ? req.query.page : 0;
+
+            let transactions = await getTransaction(perPage, page, user);
             res.status(200).json(apiResponse(true, "", transactions));
             break;
         case 'POST':

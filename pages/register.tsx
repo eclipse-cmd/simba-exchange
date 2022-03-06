@@ -1,49 +1,105 @@
-import Layout from '@components/Layout'
-import type { NextPage } from 'next'
-import NextLink from "next/link"
-
+import Button from "@components/Button";
+import Footer from "@components/HomeFooter";
+import Layout from '@components/Layout';
+import { errorToast, saveLocalstorage, successToast } from "@store/helper";
+import axios from "axios";
+import type { NextPage } from 'next';
+import NextLink from "next/link";
+import { useState } from "react";
+import { User } from "types";
 
 const Register: NextPage = () => {
+    const
+        [data, setData] = useState({}),
+        [loading, setLoading] = useState<boolean>(false),
+
+        //Functions
+        inputsHandler = (e: React.ChangeEvent<HTMLInputElement>): Promise<any> | void => {
+            setData({ ...data, [e.target.name]: e.target.value });
+        },
+        handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+            e.preventDefault();
+            setLoading(true);
+            try {
+                const response = await axios.post(`/api/v1/register`, data);
+                const result = await response.data;
+                if (!result.status) {
+                    setLoading(false);
+                    errorToast(result.message);
+                    return;
+                }
+                const res = response.data.data as unknown as { token: string, user: User; };
+                saveLocalstorage(res.token, res.user);
+                setLoading(false);
+                successToast("registration is successful, you will be redirected automatically");
+                setTimeout(() => {
+                    window.location.href = "/dashboard";
+                }, 3000);
+            } catch (error: any) {
+                errorToast("an error occured, please try again later");
+            }
+        };
+
+
     return (
         <Layout head='Registration'>
-            <div className="uk-section uk-padding-remove-vertical">
-                <div className="uk-container uk-container-expand">
-                    <div className="uk-grid h-min-vh">
-                        <div className="uk-width-3-5@m uk-background-cover uk-background-center-right uk-visible@m uk-box-shadow-xlarge" style={{ backgroundImage: "url(/assets/img/in-signin-image.jpg)" }}>
-                        </div>
-                        <div className="uk-width-expand@m uk-flex uk-flex-middle">
-                            <div className="uk-grid uk-flex-center">
-                                <div className="uk-width-3-5@m">
-                                    <div className="uk-text-center in-padding-horizontal@s">
-                                        <h2>Simba-Exchange</h2>
-                                        <p className="uk-text-lead uk-margin-small-top uk-margin-medium-bottom">Register a new account</p>
-                                        <form className="uk-grid uk-form">
-                                            <div className="uk-margin-small uk-width-1-1 uk-inline">
-                                                <span className="uk-form-icon uk-form-icon-flip fas fa-user fa-sm"></span>
-                                                <input className="uk-input uk-border-rounded" value="" name="email" type="email" placeholder="Email address" />
+            <div className="nk-main ">
+                <div className="nk-wrap nk-wrap-nosidebar">
+                    <div className="nk-content ">
+                        <div className="nk-block nk-block-middle nk-auth-body wide-xs">
+                            <div className="brand-logo pb-4 text-center">
+                                <h3>Simba Exchange</h3>
+                            </div>
+                            <div className="card card-bordered">
+                                <div className="card-inner card-inner-lg">
+                                    <div className="nk-block-head">
+                                        <div className="nk-block-head-content">
+                                            <h4 className="nk-block-title">Register</h4>
+                                            <div className="nk-block-des">
+                                                <p>Create New Simba Account</p>
                                             </div>
-                                            <div className="uk-margin-small uk-width-1-1 uk-inline">
-                                                <span className="uk-form-icon uk-form-icon-flip fas fa-user fa-sm"></span>
-                                                <input className="uk-input uk-border-rounded" value="" name="email" type="email" placeholder="Email address" />
+                                        </div>
+                                    </div>
+                                    <form onSubmit={handleSubmit}>
+                                        <div className="form-group">
+                                            <label className="form-label" htmlFor="name">Full Name</label>
+                                            <div className="form-control-wrap">
+                                                <input type="text" className="form-control form-control-lg" name="name" onChange={inputsHandler} required placeholder="Enter your full name" />
                                             </div>
-                                            <div className="uk-margin-small uk-width-1-1 uk-inline">
-                                                <span className="uk-form-icon uk-form-icon-flip fas fa-lock fa-sm"></span>
-                                                <input className="uk-input uk-border-rounded" value="" type="password" placeholder="Password" />
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="form-label" htmlFor="email">Email </label>
+                                            <div className="form-control-wrap">
+                                                <input type="text" className="form-control form-control-lg" name="email" onChange={inputsHandler} required placeholder="Enter your email address" />
                                             </div>
-                                            <div className="uk-margin-small uk-width-1-1">
-                                                <button className="uk-button uk-width-1-1 uk-button-primary uk-border-rounded uk-float-left" type="submit">Sign up</button>
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="form-label" htmlFor="password">Password</label>
+                                            <div className="form-control-wrap">
+                                                <input type="password" className="form-control form-control-lg" name="password" onChange={inputsHandler} required placeholder="Enter your password" />
                                             </div>
-                                        </form>
-                                        <span className="uk-text-small">Have an existing account? <NextLink href="/"><a className="uk-button uk-button-text">Login here</a></NextLink> </span>
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="form-label" htmlFor="password">Confirm Password</label>
+                                            <div className="form-control-wrap">
+                                                <input type="password" className="form-control form-control-lg" name="password_confirmation" onChange={inputsHandler} required placeholder="Enter your password" />
+                                            </div>
+                                        </div>
+                                        <div className="form-group">
+                                            <Button btn_text="Register" isLoading={loading} />
+                                        </div>
+                                    </form>
+                                    <div className="form-note-s2 text-center pt-4"> Already have an account? <NextLink href="/"><a><strong>Sign in instead</strong></a></NextLink>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <Footer />
                     </div>
                 </div>
             </div>
         </Layout>
-    )
-}
+    );
+};
 
-export default Register
+export default Register;

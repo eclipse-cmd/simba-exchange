@@ -9,7 +9,10 @@ export default async function handler(
     const token = req.headers.token as string;
     const response = await getAuth(token);
     if (response) {
-        return res.status(200).json(apiResponse(true, '', response));
+        return res.status(200).json(apiResponse(true, '', {
+            user: response,
+            token
+        }));
     }
     return res.status(400).json(apiResponse(false, 'an error occured', []));
 }

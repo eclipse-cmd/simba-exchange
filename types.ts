@@ -1,4 +1,5 @@
-import { User } from "./pages/api/app/model";
+import { type } from "os";
+import { User, Wallet } from "./pages/api/app/model";
 
 
 export type APIResponse = {
@@ -36,4 +37,33 @@ export type WalletSwapInput = {
         _id: string;
         email: string;
     };
+};
+
+export type User = {
+    _id: string;
+    name: string;
+    email: string,
+    created_at: Date,
+    upgraded_at: Date,
+};
+
+export type Wallet = {
+    _id: string;
+    owner_id: string;
+    type: string,
+    amount: string,
+    created_at: Date,
+    upgraded_at: Date,
+};
+
+export type InitialState = {
+    user: User | null,
+    token: string | null,
+    wallet: Wallet | null;
+};
+
+export type TransactionResponse = {
+    transaction: [],
+    page: number,
+    pages: number;
 };

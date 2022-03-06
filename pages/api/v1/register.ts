@@ -9,5 +9,8 @@ export default async function handler(
   if (response?.status === true) {
     return res.status(200).json(response);
   }
+  if (response?.status === false) {
+    return res.status(200).json(response);
+  }
   return res.status(400).json(response);
 }
