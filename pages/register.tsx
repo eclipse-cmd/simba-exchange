@@ -36,6 +36,7 @@ const Register: NextPage = () => {
                     window.location.href = "/dashboard";
                 }, 3000);
             } catch (error: any) {
+                setLoading(false);
                 errorToast("an error occured, please try again later");
             }
         };

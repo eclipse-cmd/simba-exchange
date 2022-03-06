@@ -1,5 +1,5 @@
 import { TransactionInput, User } from "types";
-import { Transaction, Wallet } from "../model";
+import { Transaction, User as UserModel, Wallet } from "../model";
 import { exchange_currency, exchange_rate, randomString } from "../_util";
 
 export const
@@ -10,14 +10,13 @@ export const
             .select([])
             .limit(perPage)
             .skip(perPage * page)
-            .sort({ created_at: 'desc' })
+            .sort('-created_at')
             .exec();
 
         let count = await Transaction.find({ $or: [{ sender_id: user._id }, { receiver_id: user._id }] }).count().exec();
         if (count != 0) {
             count = count > perPage ? Math.ceil(count / perPage) : 1;
         }
-
         return {
             transaction,
             page,
@@ -105,6 +104,8 @@ export const
                             source_currency: data.source_currency,
                             target_currency: data.target_currency,
                             refrence: randomString(),
+                            created_at: new Date(),
+                            updated_at: new Date()
                         });
 
                         if (transaction) {
@@ -174,6 +175,8 @@ export const
                                     source_currency: data.source_currency,
                                     target_currency: data.target_currency,
                                     refrence: randomString(),
+                                    created_at: new Date(),
+                                    updated_at: new Date()
                                 });
 
                                 if (transaction) {
@@ -243,6 +246,8 @@ export const
                                     source_currency: data.source_currency,
                                     target_currency: data.target_currency,
                                     refrence: randomString(),
+                                    created_at: new Date(),
+                                    updated_at: new Date()
                                 });
 
                                 if (transaction) {
@@ -312,6 +317,8 @@ export const
                                     source_currency: data.source_currency,
                                     target_currency: data.target_currency,
                                     refrence: randomString(),
+                                    created_at: new Date(),
+                                    updated_at: new Date()
                                 });
 
                                 if (transaction) {

@@ -57,9 +57,10 @@ export type Wallet = {
 };
 
 export type InitialState = {
-    user: User | null,
+    users: [User] | null,
+    auth: User | null,
     token: string | null,
-    wallet: Wallet | null;
+    wallet: [Wallet] | null;
 };
 
 export type TransactionResponse = {

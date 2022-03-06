@@ -1,5 +1,6 @@
 export const actionCreator = {
     SET_USER: "SET_USER",
+    SET_USERS: "SET_USERS",
     REMOVE_USER: "REMOVE_USER",
     SET_TOKEN: "SET_TOKEN",
     REMOVE_TOKEN: "REMOVE_TOKEN",
@@ -12,12 +13,17 @@ const reducer = (state: any, action: { type: string, payload?: object | string; 
         case actionCreator.SET_USER:
             return {
                 ...state,
-                user: action.payload,
+                auth: action.payload,
+            };
+        case actionCreator.SET_USERS:
+            return {
+                ...state,
+                users: action.payload,
             };
         case actionCreator.REMOVE_USER:
             return {
                 ...state,
-                user: null,
+                auth: null,
             };
         case actionCreator.SET_TOKEN:
             return {

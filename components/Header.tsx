@@ -1,7 +1,6 @@
-import { route } from "next/dist/server/router";
-import { Router } from "next/router";
-import React from 'react';
 import { useRouter } from "next/router";
+import { AppContext } from "pages/_app";
+import React, { useContext, useMemo } from 'react';
 
 interface HeaderProps { }
 
@@ -11,6 +10,8 @@ const Header: React.FC<HeaderProps> = () => {
         localStorage.removeItem("_simba");
         router.push('/');
     };
+    const store = useContext(AppContext);
+    const auth = useMemo(() => store.state.auth, [store]);
 
     return (
         <div className="nk-header nk-header-fixed is-light">
@@ -30,19 +31,16 @@ const Header: React.FC<HeaderProps> = () => {
                                         </div>
                                         <div className="user-info d-none d-md-block">
                                             <div className="user-status">User</div>
-                                            <div className="user-name dropdown-indicator">Emmanuel</div>
+                                            <div className="user-name dropdown-indicator text-capitalize">{auth?.name.split(' ')[0]}</div>
                                         </div>
                                     </div>
                                 </a>
                                 <div className="dropdown-menu dropdown-menu-md dropdown-menu-right dropdown-menu-s1">
                                     <div className="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
                                         <div className="user-card">
-                                            <div className="user-avatar">
-                                                <span>AB</span>
-                                            </div>
                                             <div className="user-info">
-                                                <span className="lead-text">Emmanuel Popoola</span>
-                                                <span className="sub-text">info@softnio.com</span>
+                                                <span className="lead-text text-capitalize">{auth?.name}</span>
+                                                <span className="sub-text">{auth?.email}</span>
                                             </div>
                                         </div>
                                     </div>
