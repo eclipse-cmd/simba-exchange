@@ -1,12 +1,14 @@
 import DashboardLayout from "@components/DashboardLayout";
 import { CircularProgress } from "@material-ui/core";
 import { get } from "@store/actions";
-import React, { useEffect, useState } from 'react';
+import { AppContext } from "pages/_app";
+import React, { useContext, useEffect, useState } from 'react';
 import { TransactionResponse } from "types";
 
 interface DashboardProps { }
 
 const Dashboard: React.FC<DashboardProps> = ({ }) => {
+    const store = useContext(AppContext);
     const
         [transaction, setTransaction] = useState({ data: [], page: 0, pages: 0 }),
         [isLoading, setIsLoading] = useState<boolean>(true),
@@ -38,22 +40,25 @@ const Dashboard: React.FC<DashboardProps> = ({ }) => {
         };
 
     useEffect(() => {
+        const token = store.state.token;
         const getTransactions = async () => {
-            const response = await get('user/transaction');
-            if (response?.status) {
-                const result = response.data as unknown as TransactionResponse;
-                setTransaction({ ...result, data: result.transaction });
-                setIsLoading(false);
-                //get the number of pages
-                if (transaction.pages > 0) {
-                    let count = 0;
-                    let buffer = [];
-                    for (let i = 0; i < transaction.pages; i++) {
-                        count += 1;
-                        buffer.push(count);
+            if (token) {
+                const response = await get('user/transaction');
+                if (response?.status) {
+                    const result = response.data as unknown as TransactionResponse;
+                    setTransaction({ ...result, data: result.transaction });
+                    setIsLoading(false);
+                    //get the number of pages
+                    if (transaction.pages > 0) {
+                        let count = 0;
+                        let buffer = [];
+                        for (let i = 0; i < transaction.pages; i++) {
+                            count += 1;
+                            buffer.push(count);
+                        }
+                        // console.log(buffer)
+                        setPagesBuffer(buffer);
                     }
-                    // console.log(buffer)
-                    setPagesBuffer(buffer);
                 }
             }
         };

@@ -2,7 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/dashboard": "pages/dashboard.js",
-  "/api/v1/user/transaction": "pages/api/v1/user/transaction.js",
-  "/api/v1/user/auth": "pages/api/v1/user/auth.js"
+  "/api/v1/user/transaction": "pages/api/v1/user/transaction.js"
 }

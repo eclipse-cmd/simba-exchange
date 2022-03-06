@@ -23,7 +23,7 @@ export const
             console.log("API RESULT", result);
             if (!result.status) {
                 errorToast(result.message);
-                redirectHome();
+                // redirectHome();
             }
             return result;
         } catch (error: any) {
@@ -32,7 +32,7 @@ export const
             } else {
                 errorToast(error.message);
             }
-            redirectHome();
+            // redirectHome();
         }
     },
     get = async (endpoint: string) => {
